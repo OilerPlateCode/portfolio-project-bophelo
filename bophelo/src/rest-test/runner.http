@@ -3,3 +3,6 @@ GET http://localhost:8080/sanity-check
 
 ### Get All Runs
 GET http://localhost:8080/api/runs
+
+### Get Single Run
+GET http://localhost:8080/api/runs/1
