@@ -8,6 +8,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Repository
 public class RunRepository {
@@ -17,8 +18,8 @@ public class RunRepository {
         return runs;
     }
 
-    Run findById(Integer id) {
-        return runs.stream().filter(run -> run.id() == id).findFirst().get();
+    Optional<Run> findById(Integer id) {
+        return runs.stream().filter(run -> run.id() == id).findFirst();
     }
 
     @PostConstruct
