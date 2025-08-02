@@ -8,3 +8,6 @@ GET http://localhost:8080/api/runs
 GET http://localhost:8080/api/runs/1
 ### Get Single Run
 GET http://localhost:8080/api/runs/2
+
+### Get Single Run Not found
+GET http://localhost:8080/api/runs/3
