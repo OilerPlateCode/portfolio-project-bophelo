@@ -31,3 +31,21 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# IntelliJ IDEA
+.idea/*
+!.idea/codeStyles/
+!.idea/inspectionProfiles/
+!.idea/runConfigurations/
+*.iml
+
+# Build output
+/out/
+/target/
+
+# Logs
+*.log
+
+# OS-specific
+.DS_Store
+Thumbs.db
