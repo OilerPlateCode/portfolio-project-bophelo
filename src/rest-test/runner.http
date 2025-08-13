@@ -1,0 +1,70 @@
+### GET request to example server
+GET http://localhost:8085/sanity-check
+
+### Get All Runs
+GET http://localhost:8085/api/runs
+
+### Get Single Run
+GET http://localhost:8085/api/runs/1
+### Get Single Run
+GET http://localhost:8085/api/runs/3
+
+### Get Single Run Not found
+GET http://localhost:8085/api/runs/3
+
+### Create a run
+POST http://localhost:8085/api/runs
+Content-Type: application/json
+
+{
+  "id": 3,
+  "title": "New Run",
+  "startedOn": "2025-08-12T17:39:21.4398",
+  "completedOn": "2025-08-12T18:39:21.439816",
+  "meters": 5000,
+  "location": "OUTDOOR"
+}
+
+### Update Run
+PUT http://localhost:8085/api/runs/3
+Content-Type: application/json
+
+{
+"id": 3,
+"title": "Updated Run",
+"startedOn": "2025-08-12T17:39:21.4398",
+"completedOn": "2025-08-12T18:39:21.439816",
+"meters": 5000,
+"location": "INDOOR"
+}
+
+### Delete Run
+DELETE http://localhost:8085/api/runs/3
+Content-Type: application/json
+
+
+### Create invalid date run
+POST http://localhost:8085/api/runs
+Content-Type: application/json
+
+{
+  "id": 3,
+  "title": "",
+  "startedOn": "2026-08-12T17:39:21.4398",
+  "completedOn": "2025-08-12T18:39:21.439816",
+  "meters": 5000,
+  "location": "OUTDOOR"
+}
+
+### Create Invalid title run
+POST http://localhost:8085/api/runs
+Content-Type: application/json
+
+{
+  "id": 3,
+  "title": "",
+  "startedOn": "2025-08-12T17:39:21.4398",
+  "completedOn": "2025-08-12T18:39:21.439816",
+  "meters": 5000,
+  "location": "OUTDOOR"
+}
