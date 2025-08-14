@@ -35,21 +35,26 @@ public class RunRepository {
     }
 
     void create(Run run) {
-         var updated = jdbcClient.sql("INSERT INTO Run(id,title,started_on,completed_on,meters,location) values(?,?,?,?,?,?)")
-                .params(List.of(run.id(), run.title(),run.startedOn(), run.completedOn(), run.meters(), run.location().toString()))
+        var updated = jdbcClient.sql("INSERT INTO Run(id,title,started_on,completed_on,meters,location) values(?,?,?,?,?,?)")
+                .params(List.of(run.id(), run.title(), run.startedOn(), run.completedOn(), run.meters(), run.location().toString()))
                 .update();
 
         Assert.state(updated == 1, "Failed to create run " + run.title());
     }
 
     void update(Run run, Integer id) {
-var updated = jdbcClient.sql("update run set title = ?, started_on = ?, completed_on = ?, meters = ?, location = ? where id = ?")
-        .params(List.of(run.title(),run.startedOn(), run.completedOn(), run.meters(), run.location().toString(), id))
-        .update();
+        var updated = jdbcClient.sql("update run set title = ?, started_on = ?, completed_on = ?, meters = ?, location = ? where id = ?")
+                .params(List.of(run.title(), run.startedOn(), run.completedOn(), run.meters(), run.location().toString(), id))
+                .update();
 
-Assert.state(updated == 1, "Failed to update run " + run.title());
+        Assert.state(updated == 1, "Failed to update run " + run.title());
     }
-//
-//    void delete(Integer id) {
-//    }
+
+    void delete(Integer id) {
+        var updated = jdbcClient.sql("delete from run where id = :id")
+                .param("id", id)
+                .update();
+
+        Assert.state(updated == 1, "Failed to delete run " + id);
+    }
 }
