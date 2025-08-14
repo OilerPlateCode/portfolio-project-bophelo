@@ -38,12 +38,12 @@ public class RunController {
     List<Run> findAll() {
         return runRepository.findAll();
     }
-//
-//    @ResponseStatus(HttpStatus.CREATED)
-//    @PostMapping("")
-//    void create(@Valid @RequestBody Run run) {
-//        runRepository.create(run);
-//    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("")
+    void create(@Valid @RequestBody Run run) {
+        runRepository.create(run);
+    }
 //
 //    @ResponseStatus(HttpStatus.NO_CONTENT)
 //    @PutMapping("/{id}")
