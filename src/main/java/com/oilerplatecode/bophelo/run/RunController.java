@@ -23,16 +23,16 @@ public class RunController {
         return "Hello runner";
     }
 
-//    @GetMapping("/{id}")
-//    Run findById(@PathVariable Integer id) {
-//        Optional<Run> run = runRepository.findById(id);
-//
-//        if(run.isEmpty()) {
-////            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-//            throw new RunNotFoundException();
-//        }
-//        return run.get(); // we had this get in the repo when it was not options
-//    }
+    @GetMapping("/{id}")
+    Run findById(@PathVariable Integer id) {
+        Optional<Run> run = runRepository.findById(id);
+
+        if (run.isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new RunNotFoundException();
+        }
+        return run.get(); // we had this get in the repo when it was not options
+    }
 
     @GetMapping("")
     List<Run> findAll() {
