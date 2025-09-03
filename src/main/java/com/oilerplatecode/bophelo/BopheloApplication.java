@@ -25,7 +25,7 @@ public class BopheloApplication {
 	@Bean
 	CommandLineRunner runner(RunRepository runRepository) {
 		return args -> {
-			Run run = new Run(1, "Test Run", LocalDateTime.now(), LocalDateTime.now().plus(1, ChronoUnit.HOURS), 5000, Location.INDOOR);
+			Run run = new Run(11, "Test Run", LocalDateTime.now(), LocalDateTime.now().plus(1, ChronoUnit.HOURS), 5000, Location.INDOOR);
 			log.info("Running " + run);
 			log.info("something changed");
 			runRepository.create(run);
