@@ -1,5 +1,6 @@
 package com.oilerplatecode.bophelo;
 
+import com.oilerplatecode.bophelo.run.RunRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.oilerplatecode.bophelo.run.Location;
@@ -22,11 +23,12 @@ public class BopheloApplication {
 	}
 
 	@Bean
-	CommandLineRunner runner() {
+	CommandLineRunner runner(RunRepository runRepository) {
 		return args -> {
-			Run run = new Run(1, "Test Run", LocalDateTime.now(), LocalDateTime.now().plus(1, ChronoUnit.HOURS), 5000, Location.INDOOR);
+			Run run = new Run(11, "Test Run", LocalDateTime.now(), LocalDateTime.now().plus(1, ChronoUnit.HOURS), 5000, Location.INDOOR);
 			log.info("Running " + run);
 			log.info("something changed");
+			runRepository.create(run);
 		};
 	}
 

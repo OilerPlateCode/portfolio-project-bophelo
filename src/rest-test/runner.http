@@ -26,11 +26,10 @@ Content-Type: application/json
 }
 
 ### Update Run
-PUT http://localhost:8085/api/runs/3
+PUT http://localhost:8085/api/runs/1
 Content-Type: application/json
 
 {
-"id": 3,
 "title": "Updated Run",
 "startedOn": "2025-08-12T17:39:21.4398",
 "completedOn": "2025-08-12T18:39:21.439816",
@@ -39,7 +38,7 @@ Content-Type: application/json
 }
 
 ### Delete Run
-DELETE http://localhost:8085/api/runs/3
+DELETE http://localhost:8085/api/runs/1
 Content-Type: application/json
 
 
@@ -61,7 +60,7 @@ POST http://localhost:8085/api/runs
 Content-Type: application/json
 
 {
-  "id": 3,
+  "id": 1,
   "title": "",
   "startedOn": "2025-08-12T17:39:21.4398",
   "completedOn": "2025-08-12T18:39:21.439816",

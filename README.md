@@ -35,6 +35,10 @@ The reason being, there are many ways to solve the same problem. To adapt to dif
 
 ### Competencies shown
 - Use of Git Branching and Pull Requests: 
-- `learn`: Commits prefixed with `learn` are for commits from the commits from the course.
-- `feature`: These commits are my commits independent form the course implementing my own problem-solving
-- `docs`: These commit represent documentation 
+  - `learn`: Commits prefixed with `learn` are for commits from the commits from the course.
+  - `feature`: These commits are my commits independent form the course implementing my own problem-solving
+  - `docs`: These commit represent documentation 
+- Docker using docker for my deploy and for the Database
+
+### Archetectural Decisions
+I need to make decision on how to model the tables and their relationships
