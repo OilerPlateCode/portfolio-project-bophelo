@@ -34,7 +34,7 @@ public class RunRepository {
                 .optional();
     }
 
-    void create(Run run) {
+    public void create(Run run) {
         var updated = jdbcClient.sql("INSERT INTO Run(id,title,started_on,completed_on,meters,location) values(?,?,?,?,?,?)")
                 .params(List.of(run.id(), run.title(), run.startedOn(), run.completedOn(), run.meters(), run.location().toString()))
                 .update();
