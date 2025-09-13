@@ -69,4 +69,36 @@ class RunControllerIntegrationTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
+    @Test
+    void shouldUpdateRun() {
+        // get the verion of the run becuse of Optimistic lock exception on saving entity of type
+        Run existingRun = restClient.get()
+                .uri("/api/runs/5")
+                .retrieve()
+                .body(new ParameterizedTypeReference<Run>() {});
+
+        assertNotNull(existingRun);
+        int version = existingRun.version();
+
+        Run run = new Run(
+                11,
+                "Updating run",
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(60),
+                5000,
+                Location.OUTDOOR,
+                version + 1
+        );
+
+        ResponseEntity<Void> response = restClient.put()
+                .uri("/api/runs/11")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(run)
+                .retrieve()
+                .toBodilessEntity();
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+
+    }
+
 }
