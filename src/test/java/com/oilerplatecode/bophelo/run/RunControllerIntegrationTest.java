@@ -29,4 +29,18 @@ class RunControllerIntegrationTest {
         assertNotNull(runs);
         assertEquals(10, runs.size());
     }
+
+    @Test
+    void shouldFindRunById() {
+        Run run = restClient.get()
+                .uri("/api/runs/5")
+                .retrieve()
+                .body(new ParameterizedTypeReference<Run>() {});
+
+        assertNotNull(run);
+        System.out.println(run);
+        assertEquals(5, run.id());
+        assertEquals("Sunset Jog", run.title());
+        assertEquals(Location.INDOOR, run.location());
+    }
 }
