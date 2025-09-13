@@ -11,24 +11,22 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RunControllerIntegrationTest {
-@LocalServerPort
-    private int randomServerPort;
-RestClient restClient;
+    RestClient restClient;
 
-@BeforeEach
+    @BeforeEach
     void setUp() {
-    restClient = RestClient.create("https://localhost:" + randomServerPort);
-}
+        restClient = RestClient.builder().baseUrl("http://localhost:8085").build();
+    }
 
     @Test
     void shouldFindAllRuns() {
-List<Run> runs = restClient.get()
-        .uri("/api/runs")
-        .retrieve()
-        .body(new ParameterizedTypeReference<List<Run>>() {
-        });
-assertEquals(10, runs.size());
+        List<Run> runs = restClient.get()
+                .uri("/api/runs")
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<Run>>() {});
+
+        assertNotNull(runs);
+        assertEquals(10, runs.size());
     }
 }
