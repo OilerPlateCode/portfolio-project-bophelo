@@ -2,11 +2,14 @@ package com.oilerplatecode.bophelo.run;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClient;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,4 +46,27 @@ class RunControllerIntegrationTest {
         assertEquals("Sunset Jog", run.title());
         assertEquals(Location.INDOOR, run.location());
     }
+
+    @Test
+    void shouldCreateRun() {
+        Run newRun = new Run(
+                11,
+                "Int Test run",
+                LocalDateTime.now(),
+                LocalDateTime.now().plus(30, ChronoUnit.MINUTES),
+                3000,
+                Location.OUTDOOR,
+                null
+        );
+
+        ResponseEntity<Void> response = restClient.post()
+                .uri("/api/runs")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(newRun)
+                .retrieve()
+                .toBodilessEntity();
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
+
 }
