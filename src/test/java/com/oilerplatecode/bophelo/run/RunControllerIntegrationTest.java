@@ -1,7 +1,6 @@
 package com.oilerplatecode.bophelo.run;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class RunControllerIntegrationTest {
     RestClient restClient;
 
@@ -23,6 +22,7 @@ class RunControllerIntegrationTest {
         restClient = RestClient.builder().baseUrl("http://localhost:8085").build();
     }
 
+    @Order(1)
     @Test
     void shouldFindAllRuns() {
         List<Run> runs = restClient.get()
@@ -34,6 +34,7 @@ class RunControllerIntegrationTest {
         assertEquals(10, runs.size());
     }
 
+    @Order(2)
     @Test
     void shouldFindRunById() {
         Run run = restClient.get()
@@ -48,6 +49,7 @@ class RunControllerIntegrationTest {
         assertEquals(Location.INDOOR, run.location());
     }
 
+    @Order(3)
     @Test
     void shouldCreateRun() {
         Run newRun = new Run(
@@ -70,6 +72,7 @@ class RunControllerIntegrationTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
+    @Order(4)
     @Test
     void shouldUpdateRun() {
         // get the verion of the run becuse of Optimistic lock exception on saving entity of type
@@ -88,7 +91,7 @@ class RunControllerIntegrationTest {
                 LocalDateTime.now().plusMinutes(60),
                 5000,
                 Location.OUTDOOR,
-                version + 1
+                version
         );
 
         ResponseEntity<Void> response = restClient.put()
@@ -101,6 +104,7 @@ class RunControllerIntegrationTest {
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
+    @Order(5)
     @Test
     void shouldDeleteRun() {
         ResponseEntity<Void> response = restClient.delete()
