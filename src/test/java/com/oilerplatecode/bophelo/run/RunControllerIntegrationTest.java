@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class RunControllerIntegrationTest {
     RestClient restClient;
 
@@ -73,7 +74,7 @@ class RunControllerIntegrationTest {
     void shouldUpdateRun() {
         // get the verion of the run becuse of Optimistic lock exception on saving entity of type
         Run existingRun = restClient.get()
-                .uri("/api/runs/5")
+                .uri("/api/runs/11")
                 .retrieve()
                 .body(new ParameterizedTypeReference<Run>() {});
 
@@ -98,7 +99,16 @@ class RunControllerIntegrationTest {
                 .toBodilessEntity();
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-
     }
 
+    @Test
+    void shouldDeleteRun() {
+        ResponseEntity<Void> response = restClient.delete()
+                .uri("/api/runs/11")
+                .retrieve()
+                .toBodilessEntity();
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+
+    }
 }
