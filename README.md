@@ -7,7 +7,7 @@ To learn, I will follow along on this [Springboot Crash course on YouTube from F
 This course builds an app to track a user's Runners.
 As a person who enjoys fitness, I plan to expand on this course and make this project my own, using it daily.
 
-### Excercises
+### Exercises
 - CRUD a Cycle using an Array - Benefit exposes me to working with Arrays in Java god prep for the exam
 - Add the Exception handlers on my own.
 - Fix the folder structure after completing the tutorial video (which is just over 3.5 hours)
@@ -19,6 +19,10 @@ To demonstrate my competence, I will need to make the code my own by implementin
 As this is a learning project there will be no consistency in how someone the solutions are solved. 
 The reason being, there are many ways to solve the same problem. To adapt to different codebases I will need to explore the different popular ways teams different use to solve
 **For example I will not always use the repository pattern I will also use Entity Manager.
+
+### Rest client section of the course
+The second last module of the course introduced using rest clint by calling the placeholder api
+I decided to use REST client to add automated REST test my API rather. Instead of calling json placeholder I call my API and test my endpoints.
 
 ### TODO
 - Improve the folder structure, following enterprise standards
