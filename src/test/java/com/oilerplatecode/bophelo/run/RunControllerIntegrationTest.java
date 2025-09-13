@@ -75,7 +75,8 @@ class RunControllerIntegrationTest {
     @Order(4)
     @Test
     void shouldUpdateRun() {
-        // get the verion of the run becuse of Optimistic lock exception on saving entity of type
+        // get the version of the run because of Optimistic lock exception on saving entity of type
+        // TODO: will spin up a testing environment using docker containers or Test containers
         Run existingRun = restClient.get()
                 .uri("/api/runs/11")
                 .retrieve()
