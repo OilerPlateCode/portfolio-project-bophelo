@@ -1,12 +1,12 @@
 DROP TABLE IF EXISTS Run;
 
 CREATE TABLE IF NOT EXISTS Run (
-    id INT NOT NULL,
-    title varchar(250) NOT NULL,
-    started_on timestamp NOT NULL,
-    completed_on timestamp NOT NULL,
-    meters INT NOT NULL,
-    location varchar(10) NOT NULL,
-    version INT,
-    PRIMARY KEY (id)
+    id uuid PRIMARY KEY,
+    title VARCHAR(250) NOT NULL,
+    started_on TIMESTAMP NOT NULL,
+    completed_on TIMESTAMP NULL,
+    meters INT NOT NULL CHECK (meters >= 0),
+    location VARCHAR(10) NOT NULL CHECK (location IN ('INDOOR','OUTDOOR')),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );

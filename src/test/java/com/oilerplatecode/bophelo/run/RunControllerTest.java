@@ -41,13 +41,11 @@ class RunControllerTest {
     @BeforeEach
     void setUp() {
         runs.add(new Run(
-           1,
                 "Tuesday Afternoon Run",
                 LocalDateTime.now(),
                 LocalDateTime.now().plus(30, ChronoUnit.MINUTES),
                 3,
-                Location.OUTDOOR,
-                null
+                Location.OUTDOOR
         ));
     }
 
@@ -73,10 +71,10 @@ class RunControllerTest {
         when(runRepository.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(run));
         mvc.perform(get("/api/runs/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(run.id())))
-                .andExpect(jsonPath("$.title", is(run.title())))
-                .andExpect(jsonPath("$.miles", is(run.meters())))
-                .andExpect(jsonPath("$.location", is(run.location().toString())));
+                .andExpect(jsonPath("$.id", is(run.getId())))
+                .andExpect(jsonPath("$.title", is(run.getTitle())))
+                .andExpect(jsonPath("$.miles", is(run.getMeters())))
+                .andExpect(jsonPath("$.location", is(run.getLocation().toString())));
     }
 
     @Test
@@ -87,7 +85,7 @@ class RunControllerTest {
 
     @Test
     void shouldCreateNewRun() throws Exception {
-        var run = new Run(3,"test", LocalDateTime.now(),LocalDateTime.now(),1, Location.INDOOR, null);
+        var run =  new Run("test", LocalDateTime.now(),LocalDateTime.now(),1, Location.INDOOR);
         mvc.perform(post("/api/runs")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(run))
@@ -97,7 +95,7 @@ class RunControllerTest {
 
     @Test
     void shouldUpdateRun() throws Exception {
-        var run = new Run(2,"test", LocalDateTime.now(),LocalDateTime.now(),1, Location.INDOOR, null);
+        var run = new Run("test", LocalDateTime.now(),LocalDateTime.now(),1, Location.INDOOR);
         mvc.perform(put("/api/runs/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(run))
