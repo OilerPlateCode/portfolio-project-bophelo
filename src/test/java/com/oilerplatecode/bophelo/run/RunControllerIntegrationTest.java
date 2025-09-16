@@ -103,6 +103,38 @@ class RunControllerIntegrationTest {
                 .toBodilessEntity();
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
 
+    // the below tests fail as i need to implement proper error handling
+    @Order(6)
+    @Test
+    void shouldShowErrorIfRunNotFound() {
+        ResponseEntity<Void> response = restClient.get()
+                .uri("/api/runs/15")
+                .retrieve()
+                .toBodilessEntity();
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Order(7)
+    @Test
+    void shouldShowErrorIfRunHasNoTitle() {
+        Run newRun = new Run(
+                "",
+                LocalDateTime.now(),
+                LocalDateTime.now().plus(30, ChronoUnit.MINUTES),
+                3000,
+                Location.OUTDOOR
+        );
+
+        ResponseEntity<Void> response = restClient.post()
+                .uri("/api/runs")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(newRun)
+                .retrieve()
+                .toBodilessEntity();
+
+        System.out.println("response====>" + response);
     }
 }

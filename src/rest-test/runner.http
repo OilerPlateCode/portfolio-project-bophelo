@@ -10,14 +10,13 @@ GET http://localhost:8085/api/runs/1
 GET http://localhost:8085/api/runs/3
 
 ### Get Single Run Not found
-GET http://localhost:8085/api/runs/3
+GET http://localhost:8085/api/runs/13
 
 ### Create a run
 POST http://localhost:8085/api/runs
 Content-Type: application/json
 
 {
-  "id": "11",
   "title": "New Run",
   "startedOn": "2025-08-12T17:39:21.4398",
   "completedOn": "2025-08-12T18:39:21.439816",
@@ -30,7 +29,6 @@ PUT http://localhost:8085/api/runs/11
 Content-Type: application/json
 
 {
-  "id": 11,
 "title": "Updated Run",
 "startedOn": "2025-08-12T17:39:21.4398",
 "completedOn": "2025-08-12T18:39:21.439816",
@@ -48,7 +46,6 @@ POST http://localhost:8085/api/runs
 Content-Type: application/json
 
 {
-  "id": 3,
   "title": "",
   "startedOn": "2026-08-12T17:39:21.4398",
   "completedOn": "2025-08-12T18:39:21.439816",
@@ -61,7 +58,6 @@ POST http://localhost:8085/api/runs
 Content-Type: application/json
 
 {
-  "id": 1,
   "title": "",
   "startedOn": "2025-08-12T17:39:21.4398",
   "completedOn": "2025-08-12T18:39:21.439816",
