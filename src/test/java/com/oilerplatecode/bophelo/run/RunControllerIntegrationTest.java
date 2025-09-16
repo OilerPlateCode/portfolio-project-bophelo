@@ -5,6 +5,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 
 import java.time.LocalDateTime;
@@ -109,12 +110,15 @@ class RunControllerIntegrationTest {
     @Order(6)
     @Test
     void shouldShowErrorIfRunNotFound() {
-        ResponseEntity<Void> response = restClient.get()
-                .uri("/api/runs/15")
-                .retrieve()
-                .toBodilessEntity();
+        var ex = assertThrows(HttpClientErrorException.NotFound.class, () ->
+                restClient.get()
+                        .uri("/api/runs/{id}", 15)
+                        .retrieve()
+                        .toBodilessEntity()
+        );
 
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
+        assertTrue(ex.getResponseBodyAsString().contains("Not Found"));
     }
 
     @Order(7)
@@ -128,13 +132,16 @@ class RunControllerIntegrationTest {
                 Location.OUTDOOR
         );
 
-        ResponseEntity<Void> response = restClient.post()
-                .uri("/api/runs")
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(newRun)
-                .retrieve()
-                .toBodilessEntity();
+        var exception = assertThrows(HttpClientErrorException.BadRequest.class, () ->
+                restClient.post()
+                        .uri("/api/runs")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(newRun)
+                        .retrieve()
+                        .toBodilessEntity()
+                );
 
-        System.out.println("response====>" + response);
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
+        assertTrue(exception.getResponseBodyAsString().contains("NotBlank"));
     }
 }

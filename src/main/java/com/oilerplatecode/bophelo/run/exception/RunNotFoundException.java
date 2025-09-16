@@ -1,4 +1,4 @@
-package com.oilerplatecode.bophelo.run;
+package com.oilerplatecode.bophelo.run.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
