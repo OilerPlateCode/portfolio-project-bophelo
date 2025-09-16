@@ -44,22 +44,20 @@ class RunControllerIntegrationTest {
 
         assertNotNull(run);
         System.out.println(run);
-        assertEquals(5, run.id());
-        assertEquals("Sunset Jog", run.title());
-        assertEquals(Location.INDOOR, run.location());
+        assertEquals(5, run.getId());
+        assertEquals("Sunset Jog", run.getTitle());
+        assertEquals(Location.INDOOR, run.getLocation());
     }
 
     @Order(3)
     @Test
     void shouldCreateRun() {
         Run newRun = new Run(
-                11,
                 "Int Test run",
                 LocalDateTime.now(),
                 LocalDateTime.now().plus(30, ChronoUnit.MINUTES),
                 3000,
-                Location.OUTDOOR,
-                null
+                Location.OUTDOOR
         );
 
         ResponseEntity<Void> response = restClient.post()
@@ -77,22 +75,13 @@ class RunControllerIntegrationTest {
     void shouldUpdateRun() {
         // get the version of the run because of Optimistic lock exception on saving entity of type
         // TODO: will spin up a testing environment using docker containers or Test containers
-        Run existingRun = restClient.get()
-                .uri("/api/runs/11")
-                .retrieve()
-                .body(new ParameterizedTypeReference<Run>() {});
-
-        assertNotNull(existingRun);
-        int version = existingRun.version();
 
         Run run = new Run(
-                11,
                 "Updating run",
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(60),
                 5000,
-                Location.OUTDOOR,
-                version
+                Location.OUTDOOR
         );
 
         ResponseEntity<Void> response = restClient.put()
@@ -114,6 +103,38 @@ class RunControllerIntegrationTest {
                 .toBodilessEntity();
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
 
+    // the below tests fail as i need to implement proper error handling
+    @Order(6)
+    @Test
+    void shouldShowErrorIfRunNotFound() {
+        ResponseEntity<Void> response = restClient.get()
+                .uri("/api/runs/15")
+                .retrieve()
+                .toBodilessEntity();
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Order(7)
+    @Test
+    void shouldShowErrorIfRunHasNoTitle() {
+        Run newRun = new Run(
+                "",
+                LocalDateTime.now(),
+                LocalDateTime.now().plus(30, ChronoUnit.MINUTES),
+                3000,
+                Location.OUTDOOR
+        );
+
+        ResponseEntity<Void> response = restClient.post()
+                .uri("/api/runs")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(newRun)
+                .retrieve()
+                .toBodilessEntity();
+
+        System.out.println("response====>" + response);
     }
 }
