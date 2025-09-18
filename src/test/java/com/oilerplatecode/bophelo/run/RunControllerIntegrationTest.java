@@ -119,6 +119,8 @@ class RunControllerIntegrationTest {
 
         assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
         assertTrue(ex.getResponseBodyAsString().contains("Not Found"));
+        assertTrue(ex.getMessage().contains("Run Not Found"));
+        assertEquals("404 Not Found: \"{\"message\":\"Run Not Found\",\"path\":\"/api/runs/15\"}\"", ex.getMessage());
     }
 
     @Order(7)
