@@ -13,13 +13,17 @@ import java.util.Optional;
 
 @Service
 public class RunService {
-    RunRepository runRepository;
+    private final RunRepository runRepository;
 
-    List<Run> findAll() {
+    public RunService(RunRepository runRepository) {
+        this.runRepository = runRepository;
+    }
+
+    public List<Run> findAll() {
         return runRepository.findAll();
     }
 
-    Run findById(@PathVariable Integer id) {
+    public Run findById(@PathVariable Integer id) {
         Optional<Run> run = runRepository.findById(id);
 
         if (run.isEmpty()) {
@@ -29,15 +33,15 @@ public class RunService {
         return run.get(); // we had this get in the repo when it was not options
     }
 
-    void create(@Valid @RequestBody Run run) {
+    public void create(@Valid @RequestBody Run run) {
         runRepository.save(run);
     }
 
-    void update(@RequestBody Run run, @PathVariable Integer id) {
+    public void update(@RequestBody Run run, @PathVariable Integer id) {
         runRepository.save(run);
     }
 
-    void delete(@PathVariable Integer id) {
+    public void delete(@PathVariable Integer id) {
         runRepository.delete(runRepository.findById(id).get());
     }
 }
