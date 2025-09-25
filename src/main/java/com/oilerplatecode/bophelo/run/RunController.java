@@ -1,6 +1,7 @@
 package com.oilerplatecode.bophelo.run;
 
 import com.oilerplatecode.bophelo.run.exception.RunNotFoundException;
+import com.oilerplatecode.bophelo.run.service.RunService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +13,10 @@ import java.util.Optional;
 @RequestMapping("/api/runs")
 public class RunController {
 
-    private final RunRepository runRepository;
+    private final RunService runService;
 
-    public RunController(RunRepository runRepository) {
-        this.runRepository = runRepository;
+    public RunController( RunService runService) {
+        this.runService = runService;
     }
 
     @GetMapping("/sanity-check")
@@ -25,36 +26,30 @@ public class RunController {
 
     @GetMapping("/{id}")
     Run findById(@PathVariable Integer id) {
-        Optional<Run> run = runRepository.findById(id);
-
-        if (run.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-            throw new RunNotFoundException();
-        }
-        return run.get(); // we had this get in the repo when it was not options
+        return this.runService.findById(id);
     }
 
     @GetMapping("")
     List<Run> findAll() {
-        return runRepository.findAll();
+        return runService.findAll();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     void create(@Valid @RequestBody Run run) {
-        runRepository.save(run);
+        runService.create(run);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     void update(@RequestBody Run run, @PathVariable Integer id) {
-        runRepository.save(run);
+        runService.update(run, id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     void delete(@PathVariable Integer id) {
-        runRepository.delete(runRepository.findById(id).get());
+        runService.delete(runService.findById(id).getId());
     }
 }
 

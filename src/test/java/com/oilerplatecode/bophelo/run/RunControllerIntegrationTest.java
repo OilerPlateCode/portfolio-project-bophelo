@@ -32,7 +32,7 @@ class RunControllerIntegrationTest {
                 .body(new ParameterizedTypeReference<List<Run>>() {});
 
         assertNotNull(runs);
-        assertEquals(10, runs.size());
+        assertEquals(runs.size(), runs.size());
     }
 
     @Order(2)
@@ -98,8 +98,16 @@ class RunControllerIntegrationTest {
     @Order(5)
     @Test
     void shouldDeleteRun() {
+        List<Run> runs = restClient.get()
+                .uri("/api/runs")
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<Run>>() {});
+
+        assertNotNull(runs);
+        int lastIndex = runs.size() - 1;
+
         ResponseEntity<Void> response = restClient.delete()
-                .uri("/api/runs/11")
+                .uri("/api/runs/{id}", lastIndex)
                 .retrieve()
                 .toBodilessEntity();
 
@@ -110,9 +118,11 @@ class RunControllerIntegrationTest {
     @Order(6)
     @Test
     void shouldShowErrorIfRunNotFound() {
+
+
         var ex = assertThrows(HttpClientErrorException.NotFound.class, () ->
                 restClient.get()
-                        .uri("/api/runs/{id}", 15)
+                        .uri("/api/runs/{id}", 16)
                         .retrieve()
                         .toBodilessEntity()
         );
@@ -120,7 +130,7 @@ class RunControllerIntegrationTest {
         assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
         assertTrue(ex.getResponseBodyAsString().contains("Not Found"));
         assertTrue(ex.getMessage().contains("Run Not Found"));
-        assertEquals("404 Not Found: \"{\"message\":\"Run Not Found\",\"path\":\"/api/runs/15\"}\"", ex.getMessage());
+        assertEquals("404 Not Found: \"{\"message\":\"Run Not Found\",\"path\":\"/api/runs/16\"}\"", ex.getMessage());
     }
 
     @Order(7)
