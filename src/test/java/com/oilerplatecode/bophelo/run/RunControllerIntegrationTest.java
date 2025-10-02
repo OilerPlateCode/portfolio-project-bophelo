@@ -1,13 +1,18 @@
 package com.oilerplatecode.bophelo.run;
 
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -21,6 +26,17 @@ class RunControllerIntegrationTest {
     @BeforeEach
     void setUp() {
         restClient = RestClient.builder().baseUrl("http://localhost:8085").build();
+    }
+    @AfterEach
+    void cleanUp() throws Exception {
+        try (Connection conn = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/bophelo", "mbuzumbuzu", "secret")) {
+            try (Statement stmt = conn.createStatement()) {
+                stmt.execute("TRUNCATE TABLE run RESTART IDENTITY CASCADE");
+                List<Run> runs = RunSeeder.loadRuns();
+                RunSeeder.seedDatabase(runs);
+            }
+        }
     }
 
     @Order(1)
